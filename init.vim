@@ -34,8 +34,13 @@ set relativenumber
 " Tabs
 filetype plugin indent on
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2                                                   
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2                                                   
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+autocmd FileType typescriptreact setlocal shiftwidth=2 tabstop=2
 set expandtab
 
 " NERDTree
@@ -53,6 +58,9 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <Leader>t :tabnew<CR>
 map <Space> <Leader>
 set mouse=a
+map <Leader>[ 50<C-W>+
+map <Leader>] 50<C-W>-
+map <Leader>= <C-W>=
 
 " Bufferline
 let bufferline = get(g:, 'bufferline', {})
@@ -94,7 +102,11 @@ inoremap <buffer> <C-s> <esc>yiwi<lt><esc>ea></><esc>hpF>i
 " Ignore Node_Modules in Ctrl P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
-" Run Program in Nvim with Bind
+" Custom Commands
+command! Scratch new | setlocal bt=nofile bh=wipe nobl noswapfile nu
+command! -nargs=+ Cmd :new<bar> setlocal bt=nofile bh=wipe nobl noswapfile nu <bar> :read !<args><CR> 
+" Run Cur File 
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
 
