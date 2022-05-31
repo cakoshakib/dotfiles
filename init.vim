@@ -1,22 +1,42 @@
 call plug#begin()
-Plug 'ayu-theme/ayu-vim'
+" File Navigation
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'b3nj5m1n/kommentary'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree' |
             \ Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Linting
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Util and Config
+Plug 'b3nj5m1n/kommentary'
+Plug 'romgrk/barbar.nvim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'vimlab/split-term.vim'
+Plug 'cespare/vim-toml'
+Plug 'pechorin/any-jump.vim'
+
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax' 
+
+" Colorschemes and Styling
+Plug 'joshdick/onedark.vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'folke/tokyonight.nvim'
+Plug 'ayu-theme/ayu-vim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'andweeb/presence.nvim'
-Plug 'folke/tokyonight.nvim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'romgrk/barbar.nvim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'vimlab/split-term.vim'
-Plug 'leafgarland/typescript-vim'
+
+" Web Development
 Plug 'peitalin/vim-jsx-typescript'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'leafgarland/typescript-vim'
+Plug 'eslint/eslint'
+Plug 'alvan/vim-closetag'
+
+Plug 'jremmen/vim-ripgrep'
 call plug#end()
 
 " Color
@@ -25,7 +45,8 @@ set t_Co=256
 set bg=dark
 let ayucolor="mirage"
 let g:tokyonight_style = "storm"
-colorscheme palenight
+" colorscheme palenight
+colorscheme onedark
 
 " Line Numbers
 set number
@@ -37,8 +58,8 @@ set smartindent
 set tabstop=4
 set shiftwidth=4
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2                                                   
-autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2                                                   
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascriptreact setlocal shiftwidth=2 tabstop=2
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 autocmd FileType typescriptreact setlocal shiftwidth=2 tabstop=2
 set expandtab
@@ -61,6 +82,8 @@ set mouse=a
 map <Leader>[ 50<C-W>+
 map <Leader>] 50<C-W>-
 map <Leader>= <C-W>=
+map <Leader>c "*y
+nnoremap <Leader>e :CocDiagnostics<CR>
 
 " Bufferline
 let bufferline = get(g:, 'bufferline', {})
@@ -86,7 +109,7 @@ let g:split_term_default_shell = "pwsh"
 
 " Prettier
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+"autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " HTML Colors
 hi tsxTagName guifg=#E06C75
@@ -96,8 +119,9 @@ hi tsxCloseTag guifg=#89DDFF
 hi tsxCloseTagName guifg=#E06C75
 hi tsxAttrib guifg=#F8BD7F cterm=italic
 
-" HTML Auto-Complete w ctrl+s
-inoremap <buffer> <C-s> <esc>yiwi<lt><esc>ea></><esc>hpF>i
+" HTML Auto-Complete
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx'
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.jsx, *.tsx'
 
 " Ignore Node_Modules in Ctrl P
 let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
@@ -105,8 +129,7 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 " Custom Commands
 command! Scratch new | setlocal bt=nofile bh=wipe nobl noswapfile nu
 command! -nargs=+ Cmd :new<bar> setlocal bt=nofile bh=wipe nobl noswapfile nu <bar> :read !<args><CR> 
+
 " Run Cur File 
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-
-
